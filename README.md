@@ -1,24 +1,29 @@
 # Teknowlogy 72-Hour Profit Playbook
 
-Interactive sales & execution playbook for Teknowlogy LLC (Oakland Shopify ops agency).
+Interactive sales & execution playbook for **Teknowlogy LLC** (Oakland Shopify ops agency).
 
 **WISMO Killer wedge → free 3-day proof → $297 / $991 MRR**
 
 ## Live
 
-Deployed on Vercel after this repo is linked.
+https://teknowlogy-72h-playbook-leggomyswaggs-projects.vercel.app
 
-## Local
-
-Just open `index.html` or serve with any static server:
+## Develop
 
 ```bash
-npx serve .
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+npm run preview
 ```
 
 ## Stack
 
-- Single self-contained React 18 app
-- Tailwind-style utilities
-- Lucide icons
-- No build step required
+- Vite + React 18
+- Lucide React icons
+- Custom utility CSS (no Tailwind build step required for deploy)
