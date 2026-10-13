@@ -22,6 +22,8 @@ npm run build
 npm run preview
 ```
 
+Checklist progress is saved in this browser and restored when you return. Clearing browser storage resets it. Script buttons copy text to your clipboard; if the browser denies access, select and copy the displayed script manually.
+
 ## Stack
 
 - Vite + React 18

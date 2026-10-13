@@ -1,26 +1,59 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   ArrowUpRight, Check, ChevronRight, Clock, Copy, DollarSign,
   ExternalLink, MapPin, Target, Timer, TriangleAlert, Zap
 } from 'lucide-react'
 
+const PROGRESS_KEY = 'teknowlogy-72h-progress-v1'
+const TASK_ID = /^Day [123]-[0-3]$/
+
+function loadProgress() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(PROGRESS_KEY) || '[]')
+    return new Set(Array.isArray(stored) ? stored.filter(id => typeof id === 'string' && TASK_ID.test(id)) : [])
+  } catch {
+    return new Set()
+  }
+}
+
 export default function App() {
   const [day, setDay] = useState('Day 2')
-  const [done, setDone] = useState(new Set())
+  const [done, setDone] = useState(loadProgress)
   const [copied, setCopied] = useState(null)
+  const [notice, setNotice] = useState('')
+  const copyTimer = useRef(null)
   const [scriptIdx, setScriptIdx] = useState(0)
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify([...done]))
+    } catch {
+      setNotice('This browser cannot save progress. Keep this tab open to retain your checklist.')
+    }
+  }, [done])
+
+  useEffect(() => () => clearTimeout(copyTimer.current), [])
+
   const toggle = (id) => {
-    const next = new Set(done)
-    if (next.has(id)) next.delete(id)
-    else next.add(id)
-    setDone(next)
+    setDone(previous => {
+      const next = new Set(previous)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
   }
 
   const copy = async (text, id) => {
-    await navigator.clipboard.writeText(text)
-    setCopied(id)
-    setTimeout(() => setCopied(null), 1800)
+    try {
+      await navigator.clipboard.writeText(text)
+      setNotice('')
+      setCopied(id)
+      clearTimeout(copyTimer.current)
+      copyTimer.current = setTimeout(() => setCopied(null), 1800)
+    } catch {
+      setCopied(null)
+      setNotice('Clipboard access is unavailable. Select the script below and copy it manually.')
+    }
   }
 
   const scripts = [
@@ -76,6 +109,7 @@ export default function App() {
       </div>
 
       <div className="mx-auto max-w-[1200px] px-6 pt-14 pb-10">
+        {notice && <p role="status" className="text-[12.5px] text-white/70 mb-6">{notice}</p>}
         <div className="inline-flex items-center gap-2 rounded-full border border-[#00FF88]/30 bg-[#00FF88]/10 px-3 py-1 mb-6">
           <Zap className="w-3 h-3 text-[#00FF88]" />
           <span className="mono text-[10px] tracking-[0.14em] text-[#00FF88]">HIGHEST LEVERAGE - WISMO WEDGE</span>
@@ -126,7 +160,7 @@ export default function App() {
               const isDone = done.has(id)
               return (
                 <div key={id} className={`flex gap-4 rounded-[14px] border px-4 py-4 ${isDone ? 'bg-[#00FF88]/10 border-[#00FF88]/20' : 'bg-white/[0.02] border-white/10'}`}>
-                  <input type="checkbox" checked={isDone} onChange={() => toggle(id)} className="w-5 h-5 mt-0.5 accent-[#00FF88] cursor-pointer" />
+                  <input type="checkbox" aria-label={task.title} checked={isDone} onChange={() => toggle(id)} className="w-5 h-5 mt-0.5 accent-[#00FF88] cursor-pointer" />
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className={`mono text-[10px] px-2 py-1 rounded-full border ${task.critical ? 'bg-white text-black' : 'text-white/50 border-white/10'}`}>{task.time}</span>
