@@ -1,12 +1,12 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body, #root { min-height: 100%; }
 body {
-  font-family: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-family: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
   background: #080808;
   color: #EDEDED;
   -webkit-font-smoothing: antialiased;
 }
-.mono { font-family: 'Geist Mono', ui-monospace, monospace; }
+.mono { font-family: 'Geist Mono Variable', ui-monospace, monospace; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
 button { cursor: pointer; font-family: inherit; }
@@ -224,3 +224,9 @@ a { color: inherit; text-decoration: none; }
   .md\:border-r { border-right-width: 1px; border-right-style: solid; }
   .md\:grid-cols-\[240px_1fr\] { grid-template-columns: 240px 1fr; }
 }
+
+.site-header { min-height: 56px; height: auto; flex-wrap: wrap; gap: 12px; padding-top: 12px; padding-bottom: 12px; }
+.site-footer { flex-wrap: wrap; gap: 12px; }
+#execution-plan { scroll-margin-top: 100px; }
+pre { overflow-wrap: anywhere; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid #00ff88; outline-offset: 4px; }

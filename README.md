@@ -29,3 +29,11 @@ Checklist progress is saved in this browser and restored when you return. Cleari
 - Vite + React 18
 - Lucide React icons
 - Custom utility CSS (no Tailwind build step required for deploy)
+
+## Consumer release scope
+
+This is a local three-day business planning guide. Script examples use placeholders for names, findings and measured results; they do not represent completed outreach or verified revenue. Replace every bracket with facts you have checked before contacting anyone. The in-page start link works without an external onboarding service. No messages are sent by this app.
+
+Checklist progress stays in this browser. The interface remains usable with blocked storage and explains how to copy scripts manually when clipboard permission is denied. Geist fonts and their licenses are bundled, removing runtime Google Fonts requests. The header/footer wrap on small screens.
+
+Run `npm run build`, install Chromium with `npx playwright install --with-deps chromium`, then run `npm run test:browser`. CI checks the real built interface at desktop, 390px and 320px widths, saved progress across days/reloads, invalid and unavailable storage, clipboard denial and zero external asset requests.
